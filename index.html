@@ -1,0 +1,674 @@
+<script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/plugins/animation.gsap.min.js" integrity="sha512-5/OHwmQzDSBS0Ous4/hlYoWLHd06/d2r7LdKZQVBXOA6PvOqWVXtdboiLTU7lQTGyVoKVTNkwi0ol4gHGlw5ww==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js" integrity="sha512-IQLehpLoVS4fNzl7IfH8Iowfm5+RiMGtHykgZJl9AWMgqx0AmJ6cRWcB+GaGVtIsnC4voMfm8f2vwtY+6oPjpQ==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/CSSRulePlugin.min.js" integrity="sha512-6MT8e40N5u36Um5SXKtwZmoKcCSg1XaKtexnXZPpQ4iJDHrBEHXKz37fnDovXezsaCd4oKCH5Y+vrcl7qpLPoA==" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="scrollmagic/scrollmagic_assets/js/lib/jquery.min.js"></script>
+<script type="text/javascript" src="scrollmagic/scrollmagic_assets/js/lib/highlight.pack.js"></script>
+<script type="text/javascript" src="scrollmagic/scrollmagic_assets/js/lib/modernizr.custom.min.js"></script>
+<script type="text/javascript" src="scrollmagic/scrollmagic_assets/js/examples.js"></script>
+
+<script type="text/javascript" src="scrollmagic/scrollmagic_assets/js/lib/gsap3/gsap.min.js"></script>
+<script type="text/javascript" src="scrollmagic/uncompressed/ScrollMagic.js"></script>
+<script type="text/javascript" src="scrollmagic/uncompressed/plugins/animation.gsap.js"></script>
+<script type="text/javascript" src="scrollmagic/uncompressed/plugins/debug.addIndicators.js"></script>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css"
+      integrity="sha384-i1LQnF23gykqWXg6jxC2ZbCbUMxyw5gLZY6UiUS98LYV5unm8GWmfkIS6jqJfb4E" crossorigin="anonymous" />
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Ollie Ballinger - Building a 3D Model of the Beirut Explosion</title>
+  </head>
+
+  <body>
+    <!-- NAVIGATION -->
+    <nav class="nav">
+      <ul class="nav__list">
+        <li class="nav__left">
+          <ul>
+            <li><a href="#"><i class="fas fa-bars"></i></a></li>
+            <li><a href="#"><i class="fas fa-search"></i></a></li>
+            <li><a class="link--black" href="#">WORLD</a></li>
+          </ul>
+        </li>
+        <li><a href="#"><img class="logo" src="assets/img/logo.png" alt="The New York Times logo"></a></li>
+        <li class="nav__right">
+          <ul>
+            <li><button class="btn-default">SUBSCRIBE NOW</button></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main>
+      <article>
+        <!-- HEADER -->
+        <header>
+        	<div class="wide-img">
+			<img src="assets/img/IMG_7.png" alt="">
+			</div>
+          <h1><em>Building a 3D Model of the Beirut Explosion</em></h1>
+        </header>
+        <!-- SECTION ABOUT -->
+        <div class="article__about">
+          <p>By <a href="#">Ollie Ballinger</a></p>
+          <div class="article__about__details">
+            <p>August 16, 2020</p>
+            <ul class="social__list">
+              <li><a class="social__icons" href="#"><i class="fab fa-facebook-f"></i></a></li>
+              <li><a class="social__icons" href="#"><i class="fab fa-twitter"></i></a></li>
+              <li><a class="social__icons" href="#"><i class="fas fa-envelope"></i></a></li>
+              <li><a class="social__icons" href="#"><i class="fas fa-share"></i></a></li>
+            </ul>
+          </div>
+        </div>
+        <!-- SECTION CONTENT -->
+        <div class="article__content">
+          <div class="article--center">
+          <p>
+        Blast damage assessment in Beirut is being carried out using
+        two-dimensional satellite imagery. These approaches underestimate damage by
+        failing to capture damage done to the sides of buildings. I outline an
+        alternative approach using Open Street Map data to create a 3D model of Beirut
+        and the explosion to analyze directional blast damage.
+      </p>
+      <p></p>
+	</br>
+      <p><strong>Satellite Imagery and its Limits</strong></p>
+      <p></p>
+      <p>
+        Following the recent explosion in Beirut, I built a tool that uses Sentinel-2
+        imagery to map the destruction caused by the blast. After some trial and
+        error, I arrived at a fairly simple two step process: first, measuring the
+        change in spectral signatures between pre- and post-explosion images. Second,
+        applying an X-Means clustering algorirthm to the resulting image (yielding the
+        map on the right), or taking the absolute difference (yielding the map on the
+        left):
+      </p>
+      	</div>
+			<div class="wide-img-70">
+				<img src="assets/img/IMG_1.png" alt="">
+			</div>
+		<div class="article--center">
+      <p></p>
+      <p>
+        Red areas on the left indicate high levels change between the pre- and post-
+        explosion images. On the right, the magnitude, direction, and spectral
+        characteristcs of the change are used to classify different types of damage;
+        green indicates minor changes, red and orange seem to indicate burnt
+        areas, while purple areas match places that suffered structural damage. These
+        align fairly closely to a damage map of Beirut generated by NASA.
+      </p>
+      <p></p>
+      <p>
+        Though satellite imagery analysis is undoubtedly one of the best tools we have
+        at our disposal to analyze this sort of phenomenon, it appears to
+        systematically underestimate the extent of damage in Beirut.
+      </p>
+      <p></p>
+      <p></p>
+      <p>Below is one of the most viewed videos of the explosion:</p>
+	<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Stunning video shows explosions just minutes ago at Beirut port <a href="https://t.co/ZjltF0VcTr">pic.twitter.com/ZjltF0VcTr</a></p>&mdash; Borzou Daragahi 🖊🗒 (@borzou) <a href="https://twitter.com/borzou/status/1290675854767513600?ref_src=twsrc%5Etfw">August 4, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      <p></p>
+      <p>
+        Geolocating this video was pretty simple thanks to the Greek Orthodox church
+        (highlighted in green below) and the road leading to it (highlighted in blue).
+        The red box indicates the likely location (33.889061, 35.515909) from which
+        the person was filming:
+      </p>
+      	</div>
+			<div class="wide-img-70">
+				<img src="assets/img/IMG_2.png" alt="">
+			</div>
+		<div class="article--center">
+      <p></p>
+      <p>
+        The video shows heavy damage being sustained by areas well outside the zones
+        classified as damaged in the maps above (both my own and NASA's). Indeed,
+        substantial damage was reported several kilometers away.
+      </p>
+      <p></p>
+      <p>
+        Why are satellite images underestimating damage in Beirut? Satellite images
+        are taken from above, and are two-dimensional. Much of the damage caused by
+        the blast, however, was directional; the pressure wave hit the sides of
+        buildings, as shown in this diagram from a FEMA manual:
+      </p>
+      </div>
+			<div class="wide-img-70">
+				<img src="assets/img/IMG_3.png" alt="">
+			</div>
+		<div class="article--center">
+      <p></p>
+      <p>
+        Areas close to the explosion suffered so much damage that it could be seen
+        from above, but even if an apartment building had all of its windows blown
+        out, this would not necessarily be visible in a top-down view. Even for radar,
+        which does technically collect data in three dimensions, the angle problem
+        remains; a high resolution radar might be able to tell you how tall an
+        apartment complex is, but it won't give you a clear image of all sides. Case
+        in point: the NASA damage map was created using Sentinel-1 SAR data. In a
+        nutshell, damage assessment in this case is a three-dimensional problem, and
+        remote sensing is a two-dimensional solution.
+      </p>
+      <p></p>
+	</br>
+      <p><strong>Creating a 3D model of Beirut</strong></p>
+      <p>
+        To create a more accurate rendering of directional blast damage, three
+        dimensional data are required. Data from Open Street Maps (OSM) contains
+        information on both the "footprints" (i.e., the location and shape) as well as
+        the height of buildings, which is enough to create a three dimensional model
+        of Beirut. 3D rendering was done in Blender using the Blender-OSM add-on to
+        import a satellite basemap, terrain raster, and OSM data.
+      </p>
+      <p></p>
+      <p>
+        Geolocated videos of the blast can be used to verify and adjust the model.
+        Below is a side-by-side comparison of the twitter video and a 3D rendition of
+        OSM data:
+      </p>
+      </div>
+			<div class="wide-img-70">
+				<img src="assets/img/IMG_4.png" alt="">
+			</div>
+		<div class="article--center">
+      <p></p>
+      <p>
+        Some slight adjustments to the raw OSM data were made to achieve the image on
+        the right. The building footprints are generally very accurate and
+        comprehensive in coverage, but the building height data does occasionally have
+        to be adjusted manually. A simple and reliable way of doing this is to look at
+        the shadows cast by the building on the satellite base map and scale
+        accordingly. I also added a rough texture to the buildings to help
+        differentiate them, and added the domed roof of the Greek Orthodox church for
+        reference.
+      </p>
+      <p></p>
+      <p>
+        For good measure, a second video is geolocated following the same procedure:
+      </p>
+	<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Another view of the explosions in Beirut <a href="https://t.co/efT5VlpMkj">pic.twitter.com/efT5VlpMkj</a></p>&mdash; Borzou Daragahi 🖊🗒 (@borzou) <a href="https://twitter.com/borzou/status/1290678580897251330?ref_src=twsrc%5Etfw">August 4, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      <p></p>
+      <p>
+        The second pier (highlighted in green) and the angle (in blue) serve as
+        references:
+      </p>
+      </div>
+			<div class="wide-img-70">
+				<img src="assets/img/IMG_5.png" alt="">
+			</div>
+		<div class="article--center">
+      <p></p>
+      <p>
+        The video was taken from the rooftop of a japanese restaurant called Clap
+        Beirut (in red above). This is confirmed by a picture of the rooftop bar on
+        google images, which matches the bar that can be seen at 0:02 in the twitter
+        video. Below is a comparison of the video view and the 3D OSM model:
+      </p>
+      </div>
+			<div class="wide-img-70">
+				<img src="assets/img/IMG_6.png" alt="">
+			</div>
+		<div class="article--center">
+      <p></p>
+      <p>
+        Though somewhat grainy, the basemap on the OSM rendering shows the same
+        parking lot in the foreground, the second pier, and the same two buildings
+        highlighted in yellow. Having created a 3D model of Beirut using OSM data, we
+        can now simulate how the explosion would interact with the cityscape.
+      </p>
+      <p></p>
+	</br>
+      <p><strong>Using a Viewshed Analysis to Assess Blast Exposure</strong></p>
+      <p>
+        As the pressure wave moved through the Beirut, some buildings bore the full
+        force of the explosion, while others were partially shielded by taller
+        structures. A viewshed analysis can be conducted to identify surfaces that
+        were directly exposed to the explosion by creating a lighting object at ground
+        zero; areas that are lit up experienced unobstructed exposure to the blast:
+      </p>
+      	</div>
+			<div class="wide-img">
+				<img src="assets/img/GIF_1.gif" alt="">
+			</div>
+		<div class="article--center">
+      <p></p>
+      <p>
+        Pressure waves, like sound, are capable of diffraction (beding around small
+        obstructions). To roughly simluate this, the lighting object is gradually
+        raised, allowing the light to pass "around" obstructions. Warehouses on the
+        Eastern side of the docks, as well as the first row of apartment buildings
+        facing the docks are immediately affected. As the lighting object rises above
+        the warehouse, more areas suffer direct exposure.
+      </p>
+      <p></p>
+      <p>
+        Using two lighting objects-- a red one at 10 meters and a blue one at 20
+        meters above the warehouse at ground zero-- the intensity of the blast in
+        different areas is highlighted; red areas suffered direct exposure, blue areas
+        suffered partially obstructed exposure, and black areas were indirectly
+        exposed.
+      </p>
+      </div>
+			<div class="wide-img">
+				<img src="assets/img/IMG_7.png" alt="">
+			</div>
+		<div class="article--center">
+      <p></p>
+      <p>
+        In the immediate vicinity of the explosion the large "L" shaped building
+        (Lebanon's strategic grain reserve) is bright red, and was barely left
+        standing. It absorbed a large amount of the blast, shielding areas behind it
+        and thereby casting a long blue shadow to the West. If one refers back to the
+        satellite damage maps above, there appears to be significantly less damage in
+        the area just West of ("behind") the grain silo, roughly corresponding to the
+        blue shadow above. While these areas were still heavily damaged, they seem to
+        have suffered less damage than areas of equal distance to the East.
+      </p>
+      <p></p>
+	</br>
+      <p><strong>Accounting for Diffraction</strong></p>
+      <p>
+        The viewshed analysis tells us which sides of a building are exposed to the
+        blast, but it's a pretty rough approximation of the way the pressure wave
+        would respond to obstacles in its path. As previously mentioned, pressure
+        waves behave much like sound waves or waves in water: they bounce off of
+        objects, move around obstructions, and gradually fade.
+      </p>
+      <p></p>
+      <p>
+        To get a more precise idea of the way in which the blast interacted with the
+        urban environment, we can model the blast as an actual wave using the "dynamic
+        wave" feature in Blender. This effectively involves creating a two-dimensional
+        plane, telling it to behave like water, and simulating an object being dropped
+        into the water. By putting an obstruction in this plane, we can see how the
+        wave responds to it. As an example, the grain silo has been isolated below:
+      </p>
+        </div>
+			<div class="wide-img">
+				<img src="assets/img/GIF_2.gif" alt="">
+			</div>
+		<div class="article--center">
+      <p></p>
+      <p>
+        As the blast hits the side of the silo, it is reflected. Two large waves can
+        be seen traveling to the right: the initial blast wave, and the reflection
+        from the silo which rivals the initial wave in magnitude. To the left, the
+        wave travels around the silo but is significantly weakened.
+      </p>
+      <p></p>
+      <p>
+        Broadening the focus and adding the rest of the OSM data back in, we can
+        observe how the pressure wave interacted with buildings on the waterfront:
+      </p>
+        </div>
+			<div class="wide-img">
+				<img src="assets/img/GIF_3.gif" alt="">
+			</div>
+		<div class="article--center">
+      <p></p>
+      <p>
+        The warehouses on the docks were omitted to emphasize the interaction between
+        the pressure wave and the waterfront buildings; their light metal structure
+        and low height means they would have caused little reflection anyway. The
+        general pattern of the dynamic wave is consistent with the viewshed, but adds
+        a layer of detail. The blast is reflected off of the silo towards the East,
+        leading to a double hit. Though the wave still moves around the silo to the
+        West, the pressure is diminished. Once the wave hits the highrises, the
+        pattern becomes noisy as the wave both presses forward into the mainland and
+        is reflected back towards the pier.
+      </p>
+      <p></p>
+	</br>
+      <p><strong>Modeling the Pressure Wave</strong></p>
+      <p>
+        Now that we've accounted for the directionality of the blast and the influence
+        of buildings, we can model the pressure wave itself. An expanding sphere
+        centered at ground zero is used to model the progression of the pressure wave
+        through the city. To get a visual sense of the blast's force, the color of the
+        sphere will be a function of the pressure exerted by pressure wave.
+      </p>
+      <p></p>
+      <p>
+        The pressure exerted by the explosion in kilopascals (kPa) at various
+        distances can be calculated using the DoD's Blast Effects Computer, which
+        allows users to input variables such as the TNT equivalent of the ordnance,
+        storage method, and elevation. Though there are several estimates, the blast
+        was likely equivalent to around 300 tons of TNT. The direct "incident
+        pressure" of the pressure wave is shown in blue. However, pressure waves from
+        explosions that occur on the ground are reflected upwards, amplifying the
+        total pressure exerted by the blast. This "reflected pressure" is shown in
+        orange:
+      </p>
+      </div>
+			<div class="wide-img-70">
+			      <iframe title="Blast Overpressure and Distance " aria-label="Interactive line chart" id="datawrapper-chart-J1Pb1" src="https://datawrapper.dwcdn.net/J1Pb1/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="400"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"])for(var e in a.data["datawrapper-height"]){var t=document.getElementById("datawrapper-chart-"+e)||document.querySelector("iframe[src*='"+e+"']");t&&(t.style.height=a.data["datawrapper-height"][e]+"px")}}))}();
+		</script>
+			</div>
+		<div class="article--center">
+
+      <p></p>
+      <p>
+        For reference, 137 kPa results in 99% fatalities, 68 kPa is enough to cause
+        structural damage to most buildings, and 20 kPa results in serious injuries.
+        1-6 kPa is enough to break an average window. At 1km, the reflected pressure
+        of the blast (18 kPa) was still enough to seriously injure. Precisely
+        calculating the force exerted by an explosion is exceptionally complicated,
+        however, so these numbers should be treated as rough estimates. Further
+        analysis of the damage caused by blasts blast can be derived from the UN's
+        Explosion Consequences Analysis calculator which provides distance values for
+        different types of damage and injuries.
+      </p>
+      <p></p>
+      <p>
+        Linking the values in this graph to the color of the pressure wave sphere
+        provides a visual representation of the blast's force as it expands. An RGB
+        color scale corresponds to the blast's overpressure at three threshold values. The animation below is triggered by scrolling slowly:
+      </p>
+        </div>
+			<section class="demo">
+				<div class="spacer s2"></div>
+				<div class="spacer s0" id="trigger"></div>
+					<div id="imagesequence">
+						<div class="wide-img-70">
+							<img id="myimg"/><br>
+						</div>
+				</div>	
+				<div class="spacer s2"></div>
+				<script>
+					// define images
+						var images = [
+							"assets/img/GIF_4_frame_jpegs/frame_000_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_001_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_002_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_003_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_004_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_005_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_006_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_007_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_008_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_009_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_010_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_011_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_012_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_013_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_014_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_015_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_016_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_017_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_018_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_019_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_020_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_021_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_022_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_023_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_024_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_025_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_026_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_027_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_028_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_029_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_030_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_031_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_032_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_033_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_034_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_035_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_036_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_037_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_038_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_039_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_040_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_041_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_042_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_043_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_044_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_045_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_046_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_047_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_048_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_049_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_050_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_051_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_052_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_053_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_054_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_055_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_056_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_057_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_058_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_059_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_060_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_061_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_062_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_063_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_064_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_065_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_066_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_067_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_068_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_069_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_070_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_071_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_072_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_073_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_074_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_075_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_076_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_077_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_078_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_079_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_080_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_081_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_082_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_083_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_084_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_085_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_086_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_087_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_088_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_089_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_090_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_091_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_092_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_093_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_094_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_095_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_096_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_097_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_098_delay-0.05s.jpg",
+							"assets/img/GIF_4_frame_jpegs/frame_099_delay-0.05s.jpg"
+								];
+
+					// TweenMax can tween any property of any object. We use this object to cycle through the array
+					var obj = {curImg: 0};
+
+					// create tween
+					var tween = TweenMax.to(obj, 0.5,
+						{
+							curImg: images.length - 1,	// animate propery curImg to number of images
+							roundProps: "curImg",				// only integers so it can be used as an array index
+							repeat: 0,									// repeat 3 times
+							immediateRender: true,			// load first image automatically
+							ease: Linear.easeNone,			// show every image the same ammount of time
+							onUpdate: function () {
+							  $("#myimg").attr("src", images[obj.curImg]); // set the image source
+							}
+						}
+					);
+
+					// init controller
+					var controller = new ScrollMagic.Controller({
+						globalSceneOptions: {
+							triggerHook: 0.06,
+							duration: "100%" // this works just fine with duration 0 as well
+							// However with large numbers (>20) of pinned sections display errors can occur so every section should be unpinned once it's covered by the next section.
+							// Normally 100% would work for this, but here 200% is used, as Panel 3 is shown for more than 100% of scrollheight due to the pause.
+						}
+					});
+					// build scene
+					var scene = new ScrollMagic.Scene({triggerElement: "#trigger", duration: 300})
+									.setTween(tween)
+									.setPin("#imagesequence")
+									.addIndicators() // add indicators (requires plugin)
+									.addTo(controller);
+
+					// handle form change
+					$("form.move input[name=duration]:radio").change(function () {
+						scene.duration($(this).val());
+					});
+				</script>
+			</section>
+		<div class="spacer s_viewport"></div>
+	<div class="article--center">
+      <p></p>
+      <p>
+        By keeping the lighting object from the viewshed analysis and placing it
+        within the expanding sphere of the pressure wave, we combine two key pieces of
+        information: the pressure exerted by the blast (the color of the sphere), and
+        the level of directional exposure (brightness).
+      </p>
+      <p></p>
+      <p>
+        Now, referring back to the two geolocated twitter videos from earlier, we can
+        recreate the blast in our 3D model and get some new insights. Below is a
+        side-by-side comparison of the first video and the 3D model:
+      </p>
+        </div>
+			<div class="wide-img">
+				<img src="assets/img/GIF_5.gif" alt="">
+			</div>
+		<div class="article--center">
+      <p></p>
+      <p>
+        Judging by the twitter video alone, it would be very hard to tell the fate of
+        the person filming or the damage caused to the building that they were in.
+        However, the 3D model shows that despite having an unobstructed view of the
+        explosion, the incident pressure of the pressure wave had decreased
+        significtantly by the time it reached the viewing point. The blue-green color
+        corresponds to roughly 15 kPa-- enough to injure and break windows, but not
+        enough to cause structural damage to the building.
+      </p>
+      <p></p>
+      <p>
+        The second twitter video was taken slightly closer to ground zero, but the
+        view was partially obstructed by the grain silo:
+      </p>
+        </div>
+			<div class="wide-img">
+				<img src="assets/img/GIF_6.gif" alt="">
+			</div>
+		<div class="article--center">
+      <p></p>
+      <p>
+        Though the pressure wave probably exerted more pressure compared to the first
+        angle, the partial obstruction of the grain silo likely tempered the force of
+        the blast.
+      </p>
+      <p></p>
+	</bre>
+      <p><strong>Assessing Damage to the Skyline Tower</strong></p>
+      <p>
+        As a concrete example of how this approach can be used to assess damage (or
+        predict it, if one had the foresight), let us consider the Skyline Tower,
+        pictured below following the explosion:
+      </p>
+      </div>
+			<div class="wide-img-70">
+				<img src="assets/img/IMG_8.png" alt="">
+			</div>
+		<div class="article--center">
+      <p></p>
+      <p>
+        This partial side view shows two faces of the building, labelled "A" and "B"
+        above. Side A was nearly perpendicular to the blast, and just 600 m from
+        ground zero. Based on the previous modeling, the pressure wave exerted roughly
+        40 kPa on this side of the building. The corner where sides A and B meet,
+        highlighted in green, shows total destruction of windows, removal of most
+        siding panels, and structural damage. The back corner, highlighted in red,
+        shows many windows still intact, indicating that the maximum overpressure on
+        this side of the building likely didn't exeed 10 kPa. In other words, standing
+        on the front balcony would likely have led to serious injury but standing on
+        the back balcony would have been relatively safe.
+      </p>
+      <p></p>
+      <p>
+        The animation below shows the Skyline Tower as it is hit by the pressure wave,
+        with sides A and B labeled:
+      </p>
+        </div>
+			<div class="wide-img">
+				<img src="assets/img/GIF_7.gif" alt="">
+			</div>
+		<div class="article--center">
+      <p></p>
+      <p>
+        The bright green color of the pressure wave indicates a strong likelihood of
+        structural damage. Side A can be seen taking a direct hit, while side B is
+        angled slighly away. Despite not being directly exposed to the blast, it
+        likely still took reflective damage from some of the neighbouring buildings.
+        Both the incident overpressure indicated by the color of the sphere, as well
+        as the relative brightness of sides A and B both correspond closely to the
+        observed damage taken by the Skyline Tower.
+      </p>
+      <p></p>
+      <p><strong>Further Research</strong></p>
+      <p></p>
+      <p>
+        Though satellite imagery analysis is an indispensable tool in disaster
+        response, it has limitations. Urban blast damage in particular is difficult to
+        assess accurately because it is highly directional and much of it cannot be
+        seen from a bird's eye view. Using free and open source tools, an interactive
+        3D model of an urban explosion can be generated, allowing for a highly
+        detailed investigation of directional blast damage. This can be achieved in
+        three steps:
+      </p>
+      <p></p>
+      <p>
+        First, creating a 3D model of the urban area using Blender and Open Street
+        Maps data. Second, conducting a viewshed analysis using lighting objects to
+        gauge levels of unobstructed exposure to the pressure wave. Third, modeling
+        the explosion using geolocated videos of the event and ordnance calculators.
+        For added detail, a dynamic wave analysis can be used to more precisely model
+        how the pressure wave interacts with buildings.
+      </p>
+      <p></p>
+      <p>
+        Once properly modeled, the explosion can be viewed from any angle in the city.
+        The viewshed analysis can be calibrated more finely by ground-truthing various
+        damage levels (e.g. broken windows) at different locations. In the absence of
+        an official address registry in Beirut, OSM is already being used by the
+        Lebanese Red Cross (donate here) to conduct neighborhood surveys assessing
+        blast damage. As such, this type of damage analysis can quickly be integrated
+        into relief efforts, adapted to model disasters in different cities, and can
+        even be used to simulate the destructive potential of hypothetical explosions
+        to promote readiness.
+      </p>
+      </div>
+      </div>
+        <!-- SECTION FOOTER -->
+        <footer class="article-footer">
+          <p>Speacial thanks to my nuclear physicist brother, Sean, for making sure I didn't commit too many crimes against Physics.<a href="#">Order Reprints</a> | <a
+              href="#">Today’s Paper</a> | <a href="#">Subscribe</a> </p>
+          <div class="article-footer__content">
+            <button class="btn-default">READ 615 COMMENTS</button>
+            <ul class="social__list">
+              <li><a class="social__icons" href="#"><i class="fab fa-facebook-f"></i></a></li>
+              <li><a class="social__icons" href="#"><i class="fab fa-twitter"></i></a></li>
+              <li><a class="social__icons" href="#"><i class="fas fa-envelope"></i></a></li>
+              <li><a class="social__icons" href="#"><i class="fas fa-share"></i></a></li>
+            </ul>
+          </div>
+        </footer>
+
+      </article>
