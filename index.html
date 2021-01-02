@@ -101,35 +101,10 @@
 </script>
 
 <span  id="city-aqi-container"></span>  
-
-<div  id='map1'  style='height:300px; width:300px'  />  
-<div  id='map2'  style='height:300px; width:300px'  />  
-
-<link  rel="stylesheet"  href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css"  />  
-<script  src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>  
-  
-<script>  
-  
-      $.getJSON("https://api.ipgeolocation.io/ipgeo?apiKey=5e952783674d4066ac5fc9e8ff6a5e70", function(data) { 
-      $("#gfg").html(data.city)
-      var city=data.city
-      var lat=data.latitude
-      var lon=data.longitude
-
-      var  OSM_URL  =  'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png';  
-      var  OSM_ATTRIB  =  '&copy;  <a  href="http://openstreetmap.org/copyright">OpenStreetMap</a>  contributors';  
-      var  osmLayer  =  L.tileLayer(OSM_URL,  {attribution:  OSM_ATTRIB});  
-  
-      var  WAQI_URL    =  "https://tiles.waqi.info/tiles/usepa-no2/{z}/{x}/{y}.png?token=6078d85f4b31ee1817dbaf6dceb78dea02440285";  
-      var  WAQI_ATTR  =  'Air  Quality  Tiles  &copy;  <a  href="http://waqi.info">waqi.info</a>';  
-      var  waqiLayer  =  L.tileLayer(WAQI_URL,  {attribution:  WAQI_ATTR});  
-  
-      var  map1  =  L.map('map1').setView([lat, lon],  10);
-      map1.addLayer(osmLayer).addLayer(waqiLayer);
-
-     })  
-</script>
-	  
+		  
+<div style="width: 800px; height: 500px; overflow: hidden;">
+  <iframe src="https://aqicn.org/here" style="position: relative; left: -100px; top: -200px" width="800" height="800" frameborder="0">
+</div>
 		  
       </div>
       </div>
