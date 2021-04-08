@@ -1,0 +1,820 @@
+//// This is the source code for a tool that conducts supervised classification of oil contamination in Southeastern Iraq. 
+// Link to the GEE script: https://code.earthengine.google.com/502b4bfe5b3c5f4c7bc825d6e6684489 
+// Link to the interactive tool: https://ollielballinger.users.earthengine.app/view/basra-oil 
+
+
+// // --------------------------------------------------------- Geometry imports and training polygons ---------------------------------------------------------------------
+
+var swamp = 
+    /* color: #98ff00 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      },
+      {
+        "type": "rectangle"
+      },
+      {
+        "type": "rectangle"
+      },
+      {
+        "type": "rectangle"
+      },
+      {
+        "type": "rectangle"
+      },
+      {
+        "type": "rectangle"
+      },
+      {
+        "type": "rectangle"
+      },
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.MultiPolygon(
+        [[[[47.456071553339676, 30.727224848107337],
+           [47.456071553339676, 30.69888882636345],
+           [47.50413673888655, 30.69888882636345],
+           [47.50413673888655, 30.727224848107337]]],
+         [[[47.41935881723862, 30.668428799778788],
+           [47.41935881723862, 30.649232173089242],
+           [47.43377837290268, 30.649232173089242],
+           [47.43377837290268, 30.668428799778788]]],
+         [[[47.43403586496811, 30.630327154698186],
+           [47.43403586496811, 30.603735722686412],
+           [47.45497855295639, 30.603735722686412],
+           [47.45497855295639, 30.630327154698186]]],
+         [[[47.588960257668305, 30.705629860505397],
+           [47.588960257668305, 30.684078611599055],
+           [47.60234984507065, 30.684078611599055],
+           [47.60234984507065, 30.705629860505397]]],
+         [[[47.25419905053575, 30.710620851111404],
+           [47.25419905053575, 30.705307566427237],
+           [47.393244765867784, 30.705307566427237],
+           [47.393244765867784, 30.710620851111404]]],
+         [[[47.41924332327886, 30.846894918410964],
+           [47.41924332327886, 30.765212643575182],
+           [47.445679175329644, 30.765212643575182],
+           [47.445679175329644, 30.846894918410964]]],
+         [[[48.19175844804421, 30.01142780934655],
+           [48.19175844804421, 29.972177507238527],
+           [48.25218325273171, 29.972177507238527],
+           [48.25218325273171, 30.01142780934655]]],
+         [[[47.99510637160548, 30.001991817924548],
+           [47.99510637160548, 29.99247711356101],
+           [48.03287187453517, 29.99247711356101],
+           [48.03287187453517, 30.001991817924548]]]], null, false),
+    urban = 
+    /* color: #ffc82d */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[47.77869732617965, 30.53663182975402],
+          [47.77869732617965, 30.470667143263764],
+          [47.83019573926559, 30.470667143263764],
+          [47.83019573926559, 30.53663182975402]]], null, false),
+    oil = 
+    /* color: #00ffff */
+    /* shown: false */
+    ee.Geometry({
+      "type": "GeometryCollection",
+      "geometries": [
+        {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                47.34766727981591,
+                30.606464949670315
+              ],
+              [
+                47.348740163421866,
+                30.609179749899496
+              ],
+              [
+                47.350757184601065,
+                30.607037464893885
+              ],
+              [
+                47.35204464492821,
+                30.61054635523226
+              ],
+              [
+                47.350027623749014,
+                30.616123382445767
+              ],
+              [
+                47.348997655487295,
+                30.618505524635975
+              ],
+              [
+                47.34811788505707,
+                30.616035684935962
+              ],
+              [
+                47.34735615369548,
+                30.616241121828782
+              ],
+              [
+                47.34526401502313,
+                30.61818237915094
+              ],
+              [
+                47.34431988296532,
+                30.619502683033193
+              ],
+              [
+                47.343525949096914,
+                30.619724272393245
+              ],
+              [
+                47.342517438507315,
+                30.618708650327672
+              ],
+              [
+                47.341530385589834,
+                30.61723136284841
+              ],
+              [
+                47.339770856476065,
+                30.61800694158579
+              ],
+              [
+                47.338483396148916,
+                30.616529643398984
+              ],
+              [
+                47.34035023274574,
+                30.61556016330874
+              ],
+              [
+                47.34230286178612,
+                30.614590655320175
+              ],
+              [
+                47.345006528473135,
+                30.617859212781486
+              ],
+              [
+                47.346787515259024,
+                30.616843571149825
+              ],
+              [
+                47.34771019516015,
+                30.615717119787824
+              ],
+              [
+                47.34633690414452,
+                30.613944317331573
+              ],
+              [
+                47.347538533783194,
+                30.612060679157054
+              ],
+              [
+                47.34519964752221,
+                30.611377389586302
+              ],
+              [
+                47.34522110519433,
+                30.609493701479515
+              ],
+              [
+                47.3458648353579,
+                30.605412251556462
+              ]
+            ]
+          ],
+          "evenOdd": true
+        },
+        {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                47.303065017031415,
+                30.55343704457966
+              ],
+              [
+                47.304824546145184,
+                30.55264247052138
+              ],
+              [
+                47.306326583193524,
+                30.55511856357993
+              ],
+              [
+                47.30437393503068,
+                30.555913117367894
+              ]
+            ]
+          ],
+          "evenOdd": true
+        },
+        {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                47.300811961458905,
+                30.55510008550748
+              ],
+              [
+                47.30259294824479,
+                30.554360959724153
+              ],
+              [
+                47.30400915460466,
+                30.557003308491147
+              ],
+              [
+                47.30224962549089,
+                30.557742414151228
+              ]
+            ]
+          ],
+          "evenOdd": true
+        },
+        {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                47.33188409631604,
+                30.681887693138645
+              ],
+              [
+                47.32958814976312,
+                30.679959223001173
+              ],
+              [
+                47.33179826562756,
+                30.679211841972958
+              ],
+              [
+                47.3323990804469,
+                30.67577926227101
+              ],
+              [
+                47.33370657748557,
+                30.678868170507936
+              ],
+              [
+                47.3395631768138,
+                30.677823135568232
+              ],
+              [
+                47.339517635105594,
+                30.679571636945397
+              ],
+              [
+                47.33384744416342,
+                30.679894551544503
+              ],
+              [
+                47.33366508310193,
+                30.684674190369005
+              ],
+              [
+                47.33038738439743,
+                30.684771126467492
+              ],
+              [
+                47.33080043566454,
+                30.684203649046356
+              ]
+            ]
+          ],
+          "evenOdd": true
+        },
+        {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                47.32094068353528,
+                30.675668531862424
+              ],
+              [
+                47.31903095071667,
+                30.67976547243513
+              ],
+              [
+                47.316831523302355,
+                30.679405597445097
+              ],
+              [
+                47.3173787099635,
+                30.67601917772078
+              ]
+            ]
+          ],
+          "evenOdd": true
+        },
+        {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                47.32042569940442,
+                30.675096422729226
+              ],
+              [
+                47.31789369409436,
+                30.675262519278267
+              ],
+              [
+                47.31785077875012,
+                30.67345389703381
+              ]
+            ]
+          ],
+          "evenOdd": true
+        },
+        {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                47.32648444722474,
+                30.876297566510072
+              ],
+              [
+                47.32751441548646,
+                30.876260733238215
+              ],
+              [
+                47.32751441548646,
+                30.87747622373432
+              ],
+              [
+                47.32631278584779,
+                30.877513056538966
+              ]
+            ]
+          ],
+          "evenOdd": true
+        },
+        {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                47.30273132998698,
+                30.496957360006284
+              ],
+              [
+                47.305907065460616,
+                30.49673549014142
+              ],
+              [
+                47.305949980804854,
+                30.49862136786326
+              ],
+              [
+                47.302688414642745,
+                30.498732300708326
+              ]
+            ]
+          ],
+          "evenOdd": true
+        },
+        {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                47.675217531320335,
+                30.459455599658135
+              ],
+              [
+                47.67933740436721,
+                30.454720442567673
+              ],
+              [
+                47.68053903400588,
+                30.459455599658135
+              ],
+              [
+                47.678221605417015,
+                30.46071333707868
+              ]
+            ]
+          ],
+          "geodesic": true,
+          "evenOdd": true
+        }
+      ],
+      "coordinates": []
+    }),
+    desert = 
+    /* color: #bf04c2 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      },
+      {
+        "type": "rectangle"
+      },
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.MultiPolygon(
+        [[[[47.3716282941381, 30.676887713595033],
+           [47.3716282941381, 30.61545046726206],
+           [47.40046740546622, 30.61545046726206],
+           [47.40046740546622, 30.676887713595033]]],
+         [[[47.25749211142245, 30.533635675059937],
+           [47.25749211142245, 30.51027141674074],
+           [47.31190876791659, 30.51027141674074],
+           [47.31190876791659, 30.533635675059937]]],
+         [[[47.37728417979516, 30.565052135563903],
+           [47.37728417979516, 30.545908925858893],
+           [47.40230382548608, 30.545908925858893],
+           [47.40230382548608, 30.565052135563903]]]], null, false),
+    rumaila = 
+    /* color: #d63000 */
+    /* shown: false */
+    ee.Geometry.Polygon(
+        [[[47.254114714949914, 30.473228853280535],
+          [47.38183077940304, 30.10181320718897],
+          [47.487574187606164, 30.105377391548874],
+          [47.64679314513232, 30.12006886580581],
+          [47.62411162930844, 30.192921739279434],
+          [47.54835553577217, 30.479364663791294],
+          [47.40836509379742, 30.585929348559727],
+          [47.39866681506904, 30.70013548829542],
+          [47.25790448596748, 30.702201911216424]]]),
+    zubayr = 
+    /* color: #98ff00 */
+    /* shown: false */
+    ee.Geometry.MultiPolygon(
+        [[[[47.65069259772986, 30.11809609516936],
+           [47.84158004890173, 30.051254854367325],
+           [47.899944917065795, 30.086315005058044],
+           [47.835056916577514, 30.171239732425708],
+           [47.784588471753295, 30.32605361450066],
+           [47.75336907910697, 30.412587292015345],
+           [47.71558059821814, 30.499705306365673],
+           [47.58458688314298, 30.571366077196352],
+           [47.551128999097045, 30.48062318761785]]],
+         [[[47.818856955348195, 30.411330036722696],
+           [47.827096701441945, 30.402150932784572],
+           [48.465333700953664, 29.94363292221588],
+           [48.47391676980132, 29.957801052923184],
+           [48.43513567183157, 29.99675597561335],
+           [48.403878928004445, 30.039269629908368],
+           [48.35924696999663, 30.13492452054552],
+           [48.368173361598195, 30.172032685694003],
+           [48.2092149265396, 30.298688770077323],
+           [48.00253462868804, 30.412450735771515],
+           [47.90297103005523, 30.436134485986845],
+           [47.89232802468413, 30.431694220776112]]]]),
+    qurna = 
+    /* color: #0b4a8b */
+    /* shown: false */
+    ee.Geometry.MultiPolygon(
+        [[[[47.28289894476738, 30.831065021436128],
+           [47.29937843695488, 30.745681020868886],
+           [47.346756976993944, 30.745385953409706],
+           [47.35413841620293, 30.904590706709854],
+           [47.309506458195116, 30.904885285335567]]],
+         [[[47.280459817651824, 31.043045376416696],
+           [47.28127517621505, 31.015797325343215],
+           [47.32959493513838, 31.01554004761624],
+           [47.32912284236347, 31.038852359776147],
+           [47.329207636472724, 31.042309632849012],
+           [47.30526086721414, 31.04260577373552]]]]),
+    vegetation = 
+    /* color: #ffc82d */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[47.68041273703208, 30.627824453602287],
+          [47.68041273703208, 30.608619766533874],
+          [47.69981047262778, 30.608619766533874],
+          [47.69981047262778, 30.627824453602287]]], null, false),
+    water = 
+    /* color: #bf04c2 */
+    /* shown: false */
+    ee.Geometry.MultiPolygon(
+        [[[[47.73047887193704, 30.502464103107943],
+           [47.7313371788218, 30.50272293599031],
+           [47.72176705705667, 30.521431031019432],
+           [47.720822919483425, 30.521098309788623]]],
+         [[[47.852089628495165, 30.50918940482279],
+           [47.8651358931436, 30.495804033920958],
+           [47.86698125294585, 30.497320149095444],
+           [47.85444997242827, 30.510150714143013]]]]),
+    Pipeline = /* color: #d63000 */ee.FeatureCollection(
+        [ee.Feature(
+            ee.Geometry.LineString(
+                [[47.3550421001297, 30.55544462762512],
+                 [47.494863629711496, 30.464488487161155],
+                 [47.64253532923542, 30.47151644849717],
+                 [47.75156077130219, 30.441961619423697],
+                 [47.76477869732758, 30.445772458063857],
+                 [47.895455920533145, 30.435838066729],
+                 [48.427523935153246, 29.992638721243765],
+                 [48.44091352255559, 29.9771754066734],
+                 [48.45842298300481, 29.9650361767944]]),
+            {
+              "system:index": "0"
+            })]),
+    points = ee.FeatureCollection("users/ollielballinger/Basra_Oil_Points");
+    
+
+// // ---------------------------------------------------------------- ANALYSIS ---------------------------------------------------------------------
+
+// // --------------------- Step 1: Pre-Processing --------------------------------
+
+Map.setCenter(47.5388, 30.5156, 10);
+
+var start='2020-08-01'
+var end='2020-09-01'
+
+var mask = ee.FeatureCollection("FAO/GAUL_SIMPLIFIED_500m/2015/level0")
+            .filter(ee.Filter.or(
+              ee.Filter.eq('ADM0_NAME', "Iraq")
+              ))
+
+
+var hyperion = ee.ImageCollection('EO1/HYPERION')
+                  //.filter(ee.Filter.date('2016-08-20', '2016-08-25'))
+                  //.filter(ee.Filter.date('2003-06-01', '2003-10-01'))
+                  .mean()//.clip(aor).select('B.*')
+                  
+
+var sentinel = ee.ImageCollection('COPERNICUS/S2')
+                  .filter(ee.Filter.date(start, end))
+                  .median().select('B.*')
+
+var s1 = ee.ImageCollection('COPERNICUS/S1_GRD')
+      .filter(ee.Filter.listContains('transmitterReceiverPolarisation', 'VV'))
+      .filter(ee.Filter.listContains('transmitterReceiverPolarisation', 'VH'))
+      .filter(ee.Filter.eq('instrumentMode', 'IW'))
+      .select('VH','VV','angle')
+      .filter(ee.Filter.date(start, end))
+
+var vhA = s1.filter(ee.Filter.eq('orbitProperties_pass', 'ASCENDING'))
+var vhD = s1.filter(ee.Filter.eq('orbitProperties_pass', 'DESCENDING'))
+
+var radar = ee.Image.cat([
+  vhA.select('VH').median(),
+  ee.ImageCollection(vhA.select('VV').merge(vhD.select('VV'))).median(),
+  vhD.select('VH').median()
+])
+
+var s1_vis= {min: [-25, -20, -25], 
+            max: [0, 10, 0], 
+            opacity:0.8}
+            
+//Map.addLayer(radar, s1_vis,'radar')
+
+var s_rgb = {
+  min: 0.0,
+  max: 3000,
+  bands:['B4', 'B3', 'B2'],
+};
+
+
+
+Map.addLayer(sentinel.clip(mask), s_rgb, 'Sentinel-2');
+
+
+
+// // --------------------- Step 2: Training --------------------------------
+
+
+var ndvi=sentinel.normalizedDifference(['B8','B4']).select(['nd'],['ndvi'])
+var ndwi=sentinel.normalizedDifference(['B3','B8']).select(['nd'],['ndwi'])
+
+
+var image=sentinel.addBands(radar).addBands(ndwi).addBands(ndvi).updateMask(ndvi.lt(0))
+
+var image=image.updateMask(ndwi.lt(0.2))
+
+var oil_points=ee.FeatureCollection.randomPoints(oil, 1000).map(function(i){
+  return i.set({'class': 0})})
+  
+var water_points=ee.FeatureCollection.randomPoints(water, 1000).map(function(i){
+  return i.set({'class': 1})})
+  
+var swamp_points=ee.FeatureCollection.randomPoints(swamp, 1000).map(function(i){
+  return i.set({'class': 2})})
+
+
+
+var sample=ee.FeatureCollection([oil_points,
+                                  water_points,
+                                  swamp_points,
+                                  ])
+                                  .flatten()
+                                  .randomColumn();
+  
+var split=0.7
+var training_sample = sample.filter(ee.Filter.lt('random', split));
+var validation_sample = sample.filter(ee.Filter.gte('random', split));
+
+var bands = ['B2', 'B3', 'B4','B5','B6','B7','B8', 'B8A','B11','B12',
+            'VV','VH','ndvi'
+            ]
+
+var image=image.select(bands)
+
+
+// take samples from image for training and validation  
+var training = image.sampleRegions({
+  collection: training_sample,
+  properties: ['class'],
+  scale: 10,
+});
+
+var validation = image.sampleRegions({
+  collection: validation_sample,
+  properties: ['class'],
+  scale: 10
+});
+
+var rf1 = ee.Classifier.smileRandomForest(100)
+    .train(training, 'class');
+
+
+// // --------------------- Step 3: Conduct classification --------------------------------
+    
+var fields=ee.FeatureCollection([rumaila, qurna, zubayr])   
+
+var rf2 = image.classify(rf1).clip(fields)
+
+
+// // --------------------- Step 4: Assess Accuracy --------------------------------
+
+
+var validated = validation.classify(rf1);
+
+var testAccuracy = validated.errorMatrix('class', 'classification');
+var consumers=testAccuracy.consumersAccuracy()
+
+print('Validation overall accuracy: ', testAccuracy.accuracy())
+print('Validation consumer accuracy: ', consumers.get([0,0]));
+
+
+// create a raster showing predicted polluted areas
+
+var oil_pred=rf2.updateMask(rf2.eq(0))
+
+
+var vectors = oil_pred.reduceToVectors({
+  geometry: fields,
+  scale: 50,
+  geometryType: 'centroid',
+  eightConnected: true,
+  labelProperty: 'classification',
+  maxPixels:1653602926
+  })
+  
+print(vectors.size())
+
+
+// save model output 
+Export.image.toAsset({
+  image:oil_pred,
+  region:fields,
+  description: 'Basra_Oil_Area',
+  maxPixels: 279757956,
+  scale:10
+
+})
+
+
+Export.table.toAsset({
+  collection:vectors.filterBounds(fields),
+  description: 'Basra_Oil_Points',
+})
+
+
+//----------------------------- Building the User Interface-----------------------
+
+// load saved output to speed up visualization
+var vectors = ee.FeatureCollection("users/ollielballinger/Basra_Oil_Points");
+var oil_pred = ee.Image("users/ollielballinger/Basra_Oil_Area")
+
+Map.addLayer(Pipeline.style({color: 'red', pointSize:3}),{},'Basra Oil Terminal Pipeline')
+Map.addLayer(vectors.style({color: 'black', fillColor: '#00f2ff', pointSize:5}),{},'Oil Contamination Points')
+Map.addLayer(oil_pred.add(1), {palette:'red'},'Oil Contamination Area')
+
+
+var console = ui.Panel({
+  layout: ui.Panel.Layout.flow('vertical'),
+  style: {
+    position: 'top-right',
+    padding: '8px 15px',
+    width: '350px'
+    
+  }
+});
+
+
+Map.add(console)
+
+var draw = ui.Button({
+  label: 'Draw AOI',
+  style: {
+    width: '100%'},
+  onClick: function() {
+    
+      var H1 = ui.Label({
+        value: "Unique Polluted Areas:"
+        })
+      var H2 = ui.Label({
+        value: "Area Affected (m²):",
+        style:{padding:'0px 20px'} 
+        })
+      var header=ui.Panel({
+        widgets: [H1, H2],
+        layout: ui.Panel.Layout.Flow('horizontal')
+      })
+    console.add(header)
+
+    Map.drawingTools().clear()
+    Map.drawingTools().setLinked(false);
+    Map.drawingTools().setShape('rectangle');
+    Map.drawingTools().draw();
+    Map.drawingTools().onDraw(getChart)
+  }
+});
+
+
+var clear = ui.Button({
+  label: 'Clear',
+  style: {
+    width: '100%'},
+  onClick: function(){
+  Map.drawingTools().clear()
+  home()
+  }
+});
+
+var chart_label= ui.Label("This map uses machine learning to identify the locations of likely oil contamination using optical and radar imagery (Sentinel-1 and Sentinel-2) from August 2020. Click on the \"Layers\" tab above to toggle layers. Draw an AOI to get information on oil pollution in a specific area:", {whiteSpace: 'wrap'})
+
+
+
+var getChart=function() {
+  var geom = Map.drawingTools().layers().get(0).toGeometry();
+  
+  var pts_sum=vectors.filterBounds(geom).size()
+  
+  var area_sum=ee.Number(oil_pred.add(1)
+                              .reduceRegions({
+                                collection: geom, 
+                                reducer: ee.Reducer.sum()})
+                              .first()
+                              .get('sum'))
+                              .round()
+
+  var pts_sumLabel = ui.Label({
+      value: 'Calculating...',
+      style:{padding:'0px 60px'}
+
+    })
+  var area_sumLabel = ui.Label({
+      value: 'Calculating...',
+      style:{padding:'0px 60px'}
+    })
+    
+  pts_sum.evaluate(function(val){pts_sumLabel.setValue(val)});        
+  area_sum.evaluate(function(val){area_sumLabel.setValue(val)});        
+
+  var results=ui.Panel({
+        widgets: [pts_sumLabel, area_sumLabel],
+        layout: ui.Panel.Layout.Flow('horizontal')
+      })
+      
+  console.add(results)
+      
+}
+
+
+// home panel config 
+var home= function(){
+  Map.setOptions("Hybrid")
+  console.clear()
+  console.add(chart_label)
+  console.add(draw)
+  console.add(clear)
+}
+
+home()
