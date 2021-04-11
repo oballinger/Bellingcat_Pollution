@@ -1,5 +1,5 @@
 //// Generate timelapse of Sentinel-5p NO2 readings over Northern Iraq
-// GEE link: https://code.earthengine.google.com/2f00ec63105e0b9e0614b2a6953afe4f
+// GEE link: https://code.earthengine.google.com/7cf0e731bc67c97098adccdcbf2ae6b7
 
 var geometry = 
     /* color: #d63000 */
@@ -205,7 +205,6 @@ var geometry =
 var utils = require('users/gena/packages:utils')
 var text = require('users/gena/packages:text')
 var empty = ee.Image().byte();
-var stats=require('users/ollielballinger/Pakistan:Thesis/ZonalStats')
 
 var palettes = require('users/gena/packages:palettes');
 
