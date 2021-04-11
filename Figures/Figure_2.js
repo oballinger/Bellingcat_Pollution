@@ -1,5 +1,5 @@
 //// Generate a timelapse of Sentinel-5p Nitrogen Dioxide readings over Iraq for 2020
-// GEE link: https://code.earthengine.google.com/f8161cf3da07914ee22f1971bcddce8e
+// GEE link: https://code.earthengine.google.com/38ec64a32e75a9d3b1dff46e482287b8
 
 var aor = 
     /* color: #d63000 */
@@ -18,7 +18,6 @@ var aor =
 var utils = require('users/gena/packages:utils')
 var text = require('users/gena/packages:text')
 var empty = ee.Image().byte();
-var stats=require('users/ollielballinger/Pakistan:Thesis/ZonalStats')
 
 var palettes = require('users/gena/packages:palettes');
 
