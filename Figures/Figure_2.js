@@ -1,5 +1,5 @@
 //// Generate a timelapse of Sentinel-5p Nitrogen Dioxide readings over Iraq for 2020
-// GEE link: https://code.earthengine.google.com/38ec64a32e75a9d3b1dff46e482287b8
+// GEE link: https://code.earthengine.google.com/62d180878ad2fbfa3372d301e9f2d706
 
 var aor = 
     /* color: #d63000 */
