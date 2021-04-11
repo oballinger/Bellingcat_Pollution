@@ -1,5 +1,5 @@
 //// Generate a timelapse of Sentinel-5p NO2 readings over Southern Iraq
-// GEE link: https://code.earthengine.google.com/a03928323eb58dbb7ac485f60cd663a8
+// GEE link: https://code.earthengine.google.com/182b9320ab3213589abd920a6777efd0
 
 
 var geometry = 
