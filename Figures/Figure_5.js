@@ -1,5 +1,5 @@
 //// Generate timelapse of medium resolution optical satellite imagery (Sentinel-2 and Pansharpened Landsat 8) showing pollution over the basra-baghdad highway in June 2020
-// GEE link: https://code.earthengine.google.com/67bf6fd3258c4ebe823b607e40d4d83e
+// GEE link: https://code.earthengine.google.com/56c037558ae054328540beeb524ac385
 
 var geometry = 
     /* color: #d63000 */
@@ -17,7 +17,6 @@ var geometry =
 var utils = require('users/gena/packages:utils')
 var text = require('users/gena/packages:text')
 var empty = ee.Image().byte();
-var stats=require('users/ollielballinger/Pakistan:Thesis/ZonalStats')
 
 var cloud_thresh = 40;
 
